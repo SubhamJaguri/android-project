@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.reminder.Dashboard;
 import com.example.reminder.R;
 import com.example.reminder.Register;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +31,7 @@ import java.util.Map;
 public class Login extends AppCompatActivity {
     private Button login,register;
     private EditText email,password;
+    private String myToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,7 @@ public class Login extends AppCompatActivity {
 
             jsonobject.put("email", email);
             jsonobject.put("password", password);
-
+            jsonobject.put("device_token", FirebaseInstanceId.getInstance().getToken());
 
         } catch (JSONException e) {
             e.printStackTrace();

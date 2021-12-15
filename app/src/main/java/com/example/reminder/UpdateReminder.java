@@ -23,7 +23,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.reminder.Helper.Login;
 import com.example.reminder.Helper.SessionManager;
 
 import org.json.JSONException;
@@ -33,26 +32,35 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddReminder extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+public class UpdateReminder extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
     private EditText title,desc,date;
     private String my_date,token;
     private Button add;
     private SessionManager sessionManager;
     int day, month, year, hour, minute;
     int myday, myMonth, myYear, myHour, myMinute;
+    private String id,mytitle,mydesc,mytime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_reminder);
+        setContentView(R.layout.activity_update_reminder);
         title = findViewById(R.id.title);
         desc = findViewById(R.id.desc);
         date = findViewById(R.id.date);
         add = findViewById(R.id.add);
+        id = getIntent().getExtras().getString("id");
+        mytitle = getIntent().getExtras().getString("title");
+        mydesc = getIntent().getExtras().getString("description");
+        mytime = getIntent().getExtras().getString("time");
+        my_date = mytime;
+        title.setText(mytitle);
+        desc.setText(mydesc);
+        date.setText(mytime);
         sessionManager = new SessionManager(getApplicationContext());
-        HashMap<String,String>user = sessionManager.getUserDetails();
+        HashMap<String,String> user = sessionManager.getUserDetails();
         token = user.get(SessionManager.KEY_TOKEN);
         Log.d("TOKEN===>",token);
-        //Toast.makeText(getApplicationContext(),token,Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(),token,Toast.LENGTH_LONG).show();
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +68,7 @@ public class AddReminder extends AppCompatActivity implements DatePickerDialog.O
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AddReminder.this, AddReminder.this,year, month,day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(UpdateReminder.this, UpdateReminder.this,year, month,day);
                 datePickerDialog.show();
             }
         });
@@ -95,14 +103,15 @@ public class AddReminder extends AppCompatActivity implements DatePickerDialog.O
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-                Request.Method.POST, "https://reminder-app-api.techlious.com/reminder/v1", jsonobject,
+                Request.Method.POST, "https://reminder-app-api.techlious.com/reminder/v1/update/"+id, jsonobject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         //Log.d("HELLO", response.toString());
+                        //Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
                         try {
                             if(response.get("status").equals("success")){
-                                Toast.makeText(getApplicationContext(),"Reminder created successfully",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"Reminder updated successfully",Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(getApplicationContext(), Dashboard.class);
                                 startActivity(i);
                             }else{
@@ -133,7 +142,7 @@ public class AddReminder extends AppCompatActivity implements DatePickerDialog.O
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "Bearer "+token);
+
 
                 return headers;
             }
@@ -152,7 +161,7 @@ public class AddReminder extends AppCompatActivity implements DatePickerDialog.O
         Calendar c = Calendar.getInstance();
         hour = c.get(Calendar.HOUR);
         minute = c.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(AddReminder.this, AddReminder.this, hour, minute, DateFormat.is24HourFormat(this));
+        TimePickerDialog timePickerDialog = new TimePickerDialog(UpdateReminder.this, UpdateReminder.this, hour, minute, DateFormat.is24HourFormat(this));
         timePickerDialog.show();
     }
     @Override

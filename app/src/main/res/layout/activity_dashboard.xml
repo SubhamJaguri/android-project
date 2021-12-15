@@ -5,8 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Dashboard">
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="Logout"
+        android:id="@+id/logout"/>
     <LinearLayout
+        android:id="@+id/holder"
+        android:layout_below="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="horizontal"
@@ -23,6 +31,16 @@
             android:layout_marginLeft="10dp"
             android:text="ADD"
             android:id="@+id/add"/>
+
+
     </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_list"
+        android:layout_below="@+id/holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"/>
 
 </RelativeLayout>

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.reminder">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Reminder">
-        <activity android:name=".AddReminder"></activity>
+        <activity android:name=".UpdateReminder"></activity>
+        <activity android:name=".AddReminder" />
         <activity android:name=".Register" />
         <activity android:name=".Helper.Login" />
         <activity android:name=".Dashboard" />
